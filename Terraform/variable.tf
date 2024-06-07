@@ -12,3 +12,8 @@ variable "codebuild_project_name" {
   default     = "codebuild_cantaso"
 
 }
+
+variable "aws_ecr_repository" {
+  description = "The name of the ECR repository"
+  default     = "my-ecr-cantaso-repo"
+}
