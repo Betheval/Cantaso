@@ -1,9 +1,6 @@
-name: Deploy React App to AWS EKS
+name: React App to AWS ECR
 
-on:
-  push:
-    branches:
-      - cantoso-react
+on: workflow_dispatch
 
 jobs:
   build-and-deploy:
@@ -22,7 +19,7 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/react-app:${{ github.sha }} .
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/react-app:${{ github.sha }} ./App/cantaso
           docker push ${{ steps.login-ecr.outputs.registry }}/react-app:${{ github.sha }}
 
       - name: Configure AWS credentials
