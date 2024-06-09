@@ -11,8 +11,8 @@ Before you begin, ensure you have the following installed:
 #### 1. Clone the Repository
 
 ```sh
-git clone <repository-url>
-cd <repository-directory>
+git clone https://github.com/Betheval/Cantaso
+cd Cantaso
 ```
 #### 2. Configure AWS CLI
 
