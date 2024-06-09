@@ -1,9 +1,7 @@
 name: Build and Push Docker Image to Amazon ECR
 
 on:
-  push:
-    branches:
-      - cantaso-react
+  workflow_dispatch: 
 
 jobs:
   build-and-push:
