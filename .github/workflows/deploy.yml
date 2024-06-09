@@ -1,12 +1,12 @@
-name: Deploy React App to AWS EKS
+name: Build and Push Docker Image to Amazon ECR
 
 on:
   push:
     branches:
-      - cantoso-react
+      - cantaso-react
 
 jobs:
-  build-and-deploy:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,17 +21,17 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build and push Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: my-ecr-cantaso-repo
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/react-app:${{ github.sha }} .
-          docker push ${{ steps.login-ecr.outputs.registry }}/react-app:${{ github.sha }}
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-east-1
-
-      - name: Update Kubernetes deployment
-        run: |
-          kubectl set image deployment/react-app react-app=${{ steps.login-ecr.outputs.registry }}/react-app:${{ github.sha }}
+          aws-region: eu-west-1
