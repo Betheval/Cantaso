@@ -27,6 +27,10 @@ jobs:
           mask-password: "false"
 
       - name: Build and push Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: my-ecr-cantaso-repo
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/react-app:${{ github.sha }} ./App/cantaso
-          docker push ${{ steps.login-ecr.outputs.registry }}/react-app:${{ github.sha }}
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./App/cantaso
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
